@@ -9,7 +9,7 @@ import type { ProcurementTx, ProcurementUnitOfWork } from './ports.ts';
 
 const loadOrder = async (tx: DbTx | typeof db, id: string, lock: boolean): Promise<PurchaseOrder | null> => {
   const q = tx.select().from(purchaseOrders).where(eq(purchaseOrders.id, id));
-  const [o] = lock ? await (q as ReturnType<typeof q.for>).for('update') : await q;
+  const [o] = lock ? await (q as any).for('update') : await q;
   if (!o) return null;
   const lines = await tx.select().from(purchaseOrderLines).where(eq(purchaseOrderLines.orderId, id)).orderBy(purchaseOrderLines.id);
   return { id: o.id, poNumber: o.poNumber, supplier: o.supplier, currency: o.currency, status: o.status as PoStatus, createdBy: o.createdBy, approvedBy: o.approvedBy, lines: lines.map(l => ({ id: l.id, itemId: l.itemId, orderedQty: l.orderedQty, receivedQty: l.receivedQty, unitPriceMinor: l.unitPriceMinor })) };

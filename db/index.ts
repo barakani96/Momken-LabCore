@@ -8,16 +8,45 @@ import { Pool } from 'pg';
 import * as schema from './schema';
 
 const globalForDb = globalThis as unknown as { pgPool?: Pool };
-function getPool() {
-  if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is required. Create .env.local from .env.example in the project root and set DATABASE_URL to a reachable PostgreSQL database, then rerun the command.');
-  const connStr = process.env.DATABASE_URL;
-  const isIpOrLocal = connStr.includes('localhost') || connStr.includes('127.0.0.1') || /\/\/\d+\.\d+\.\d+\.\d+/.test(connStr);
-  let sslConfig: any = undefined;
-  if (process.env.NODE_ENV === 'production' && !isIpOrLocal) {
-    sslConfig = { rejectUnauthorized: true };
-  } else if (connStr.includes('sslmode=require') || connStr.includes('sslmode=prefer')) {
-    sslConfig = { rejectUnauthorized: false };
-  }
-  return globalForDb.pgPool ??= new Pool({ connectionString: connStr, max: 10, ssl: sslConfig });
+
+export function isDbConfigured(): boolean {
+  return typeof process.env.DATABASE_URL === 'string' && process.env.DATABASE_URL.trim().length > 0;
 }
+
+export function getPool(): Pool {
+  if (globalForDb.pgPool && (isDbConfigured() || (globalForDb.pgPool as unknown as { _isDummy?: boolean })._isDummy)) {
+    // If we previously created a dummy pool but DATABASE_URL was later set, reset it:
+    if ((globalForDb.pgPool as unknown as { _isDummy?: boolean })._isDummy && isDbConfigured()) {
+      globalForDb.pgPool = undefined;
+    } else {
+      return globalForDb.pgPool;
+    }
+  }
+
+  if (!isDbConfigured()) {
+    // Return a build-safe pool that allows module evaluation and next build without throwing
+    const dummyPool = new Pool({ connectionString: 'postgresql://placeholder:placeholder@localhost:5432/placeholder' });
+    (dummyPool as unknown as { _isDummy: boolean })._isDummy = true;
+    const safePool = new Proxy(dummyPool, {
+      get(target, prop, receiver) {
+        if (prop === 'connect' || prop === 'query') {
+          return () => {
+            throw new Error('DATABASE_URL is not configured. Create .env.local from .env.example in the project root and set DATABASE_URL to a reachable PostgreSQL database.');
+          };
+        }
+        return Reflect.get(target, prop, receiver);
+      },
+    });
+    return (globalForDb.pgPool = safePool);
+  }
+
+  return (globalForDb.pgPool ??= new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 10,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+  }));
+}
+
 export const db = drizzle(getPool(), { schema });
+export { schema };
+export default db;
