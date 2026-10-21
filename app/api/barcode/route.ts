@@ -1,6 +1,6 @@
 import { authorizeApi } from '@/lib/auth/api-guard';
 import { NextResponse } from 'next/server';
-import * as bwipjs from 'bwip-js';
+const bwipjs = require('bwip-js');
 
 // Code 128 is suitable for accession identifiers. This endpoint encodes only a
 // bounded label value and returns an SVG, not arbitrary user-provided markup.

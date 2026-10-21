@@ -16,5 +16,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
  const auth = await authorizeApi(false, 'quality.manage', request); if ('response' in auth) return auth.response; if (!process.env.DATABASE_URL) return unavailable();
  const parsed = schema.safeParse(await request.json().catch(()=>null)); if (!parsed.success) return NextResponse.json({error:parsed.error.issues[0]?.message ?? 'Invalid interval.'},{status:400});
- try { const [created] = await db.insert(referenceIntervals).values({...parsed.data, effectiveFrom:new Date(parsed.data.effectiveFrom), approvalStatus:'Draft'}).returning(); await db.insert(auditEvents).values({actorId:auth.user.id,action:'REFERENCE_INTERVAL_CREATED',entityType:'reference_interval',entityId:created.id,details:{testId:created.testId,version:created.version,approvalStatus:'Draft'}}); return NextResponse.json({data:created}, {status:201}); } catch(e) { console.error('Reference interval create failed',e); return NextResponse.json({error:'Unable to create interval. Verify the test exists and the version is unique for your workflow.'},{status:500}); }
+ try { const [created] = await db.insert(referenceIntervals).values({
+    ...parsed.data,
+    lowValue: parsed.data.lowValue?.toString() ?? null,
+    highValue: parsed.data.highValue?.toString() ?? null,
+    criticalLow: parsed.data.criticalLow?.toString() ?? null,
+    criticalHigh: parsed.data.criticalHigh?.toString() ?? null,
+    effectiveFrom: new Date(parsed.data.effectiveFrom),
+    approvalStatus: 'Draft'
+  }).returning(); await db.insert(auditEvents).values({actorId:auth.user.id,action:'REFERENCE_INTERVAL_CREATED',entityType:'reference_interval',entityId:created.id,details:{testId:created.testId,version:created.version,approvalStatus:'Draft'}}); return NextResponse.json({data:created}, {status:201}); } catch(e) { console.error('Reference interval create failed',e); return NextResponse.json({error:'Unable to create interval. Verify the test exists and the version is unique for your workflow.'},{status:500}); }
 }

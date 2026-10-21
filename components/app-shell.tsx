@@ -13,7 +13,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (pathname === '/login' || pathname.startsWith('/patient-portal/')) return <>{children}</>;
   async function signOut() { await fetch('/api/auth/logout', { method: 'POST' }); router.replace('/login'); router.refresh(); }
   return <Theme theme={carbonTheme}>
-    <Header aria-label="Northstar ERP and LIMS" dir={direction}>
+    <Header aria-label="Northstar ERP and LIMS">
       <HeaderName href="#main" prefix="Northstar">ERP + LIMS</HeaderName>
       <HeaderGlobalBar>
         <HeaderGlobalAction aria-label={`${locale === 'ar' ? 'سمة كربون الحالية' : 'Current Carbon theme'}: ${carbonTheme}. ${locale === 'ar' ? 'تغيير السمة' : 'Change theme'}`} tooltipAlignment="end" onClick={cycleCarbonTheme}><ColorPalette /></HeaderGlobalAction>
