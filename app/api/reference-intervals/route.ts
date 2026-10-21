@@ -1,0 +1,20 @@
+import { and, desc, eq, ilike, or } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { db } from '@/db';
+import { auditEvents, referenceIntervals, testCatalog } from '@/db/schema';
+import { authorizeApi } from '@/lib/auth/api-guard';
+const querySchema = z.object({ q: z.string().trim().max(100).optional(), status: z.enum(['All','Draft','Approved','Retired']).default('All') });
+const schema = z.object({ testId: z.string().uuid(), version: z.string().trim().min(1).max(24), population: z.string().trim().min(1).max(120), ageMinDays: z.number().int().min(0).nullable().optional(), ageMaxDays: z.number().int().min(0).nullable().optional(), sexAtBirth: z.string().max(24).nullable().optional(), lowValue: z.number().finite().nullable().optional(), highValue: z.number().finite().nullable().optional(), criticalLow: z.number().finite().nullable().optional(), criticalHigh: z.number().finite().nullable().optional(), unit: z.string().trim().min(1).max(40), effectiveFrom: z.string().datetime(), source: z.string().trim().min(8).max(2000) }).refine(v => v.ageMinDays == null || v.ageMaxDays == null || v.ageMinDays <= v.ageMaxDays, { message: 'Minimum age must not exceed maximum age.' }).refine(v => v.lowValue == null || v.highValue == null || v.lowValue <= v.highValue, { message: 'Low reference limit must not exceed high limit.' }).refine(v => v.criticalLow == null || v.criticalHigh == null || v.criticalLow <= v.criticalHigh, { message: 'Critical low must not exceed critical high.' });
+const unavailable = () => NextResponse.json({ error: 'Database is not configured. Set DATABASE_URL and apply migrations.' }, { status: 503 });
+export async function GET(request: Request) {
+ const auth = await authorizeApi(false, 'quality.read'); if ('response' in auth) return auth.response; if (!process.env.DATABASE_URL) return unavailable();
+ const parsed = querySchema.safeParse(Object.fromEntries(new URL(request.url).searchParams)); if (!parsed.success) return NextResponse.json({error:'Invalid filters.'},{status:400});
+ const filters = []; if (parsed.data.status !== 'All') filters.push(eq(referenceIntervals.approvalStatus, parsed.data.status)); if (parsed.data.q) filters.push(or(ilike(testCatalog.code, `%${parsed.data.q}%`),ilike(testCatalog.name, `%${parsed.data.q}%`),ilike(referenceIntervals.population, `%${parsed.data.q}%`))!);
+ try { const rows = await db.select({ interval: referenceIntervals, testCode: testCatalog.code, testName: testCatalog.name, department: testCatalog.department }).from(referenceIntervals).innerJoin(testCatalog,eq(referenceIntervals.testId,testCatalog.id)).where(filters.length?and(...filters):undefined).orderBy(desc(referenceIntervals.effectiveFrom)).limit(100); return NextResponse.json({data:rows.map(r=>({...r.interval,testCode:r.testCode,testName:r.testName,department:r.department}))}); } catch(e) { console.error('Reference interval list failed',e); return NextResponse.json({error:'Unable to load reference intervals.'},{status:500}); }
+}
+export async function POST(request: Request) {
+ const auth = await authorizeApi(false, 'quality.manage', request); if ('response' in auth) return auth.response; if (!process.env.DATABASE_URL) return unavailable();
+ const parsed = schema.safeParse(await request.json().catch(()=>null)); if (!parsed.success) return NextResponse.json({error:parsed.error.issues[0]?.message ?? 'Invalid interval.'},{status:400});
+ try { const [created] = await db.insert(referenceIntervals).values({...parsed.data, effectiveFrom:new Date(parsed.data.effectiveFrom), approvalStatus:'Draft'}).returning(); await db.insert(auditEvents).values({actorId:auth.user.id,action:'REFERENCE_INTERVAL_CREATED',entityType:'reference_interval',entityId:created.id,details:{testId:created.testId,version:created.version,approvalStatus:'Draft'}}); return NextResponse.json({data:created}, {status:201}); } catch(e) { console.error('Reference interval create failed',e); return NextResponse.json({error:'Unable to create interval. Verify the test exists and the version is unique for your workflow.'},{status:500}); }
+}

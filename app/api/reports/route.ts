@@ -1,0 +1,33 @@
+import { and, desc, eq, ilike, or } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { db } from '@/db';
+import { auditEvents, labReports, labResults, patients, specimens } from '@/db/schema';
+import { authorizeApi } from '@/lib/auth/api-guard';
+const querySchema = z.object({ q: z.string().trim().max(100).optional(), page: z.coerce.number().int().min(1).max(10000).default(1) });
+const releaseSchema = z.object({ specimenId: z.string().uuid().optional(), accession: z.string().trim().min(3).max(40).optional(), correctionOf: z.string().uuid().optional(), reason: z.string().trim().min(12).max(2000).optional() }).refine(v => !!v.specimenId !== !!v.accession, { message: 'Provide either specimenId or accession.' }).refine(v => !v.correctionOf || !!v.reason, { message: 'A correction reason of at least 12 characters is required.' });
+const unavailable = () => NextResponse.json({ error: 'Database is not configured. Set DATABASE_URL and apply migrations.' }, { status: 503 });
+export async function GET(request: Request) {
+ const auth = await authorizeApi(false, 'results.read'); if ('response' in auth) return auth.response; if (!process.env.DATABASE_URL) return unavailable();
+ const parsed = querySchema.safeParse(Object.fromEntries(new URL(request.url).searchParams)); if (!parsed.success) return NextResponse.json({error:'Invalid report filters.'},{status:400});
+ const filters = []; if (parsed.data.q) filters.push(or(ilike(labReports.reportNumber,`%${parsed.data.q}%`),ilike(specimens.accession,`%${parsed.data.q}%`),ilike(patients.patientNumber,`%${parsed.data.q}%`))!);
+ try { const rows = await db.select({report:labReports,accession:specimens.accession,patientNumber:patients.patientNumber,givenName:patients.givenName,familyName:patients.familyName}).from(labReports).innerJoin(specimens,eq(labReports.specimenId,specimens.id)).innerJoin(patients,eq(specimens.patientId,patients.id)).where(filters.length?and(...filters):undefined).orderBy(desc(labReports.releasedAt),desc(labReports.version)).limit(50).offset((parsed.data.page-1)*50); return NextResponse.json({data:rows.map(r=>({...r.report,accession:r.accession,patientNumber:r.patientNumber,patientName:`${r.givenName} ${r.familyName}`})),page:parsed.data.page,pageSize:50,hasMore:rows.length===50}); }
+ catch(e){console.error('Report list failed',e);return NextResponse.json({error:'Unable to load reports.'},{status:500});}
+}
+export async function POST(request: Request) {
+ const auth = await authorizeApi(false, 'results.validate', request); if ('response' in auth) return auth.response; if (!process.env.DATABASE_URL) return unavailable();
+ const parsed=releaseSchema.safeParse(await request.json().catch(()=>null)); if(!parsed.success) return NextResponse.json({error:parsed.error.issues[0]?.message??'Invalid report release request.'},{status:400});
+ try { const report=await db.transaction(async tx=>{
+  const [specimen]=await tx.select().from(specimens).where(parsed.data.specimenId ? eq(specimens.id,parsed.data.specimenId) : eq(specimens.accession,parsed.data.accession!)).for('update').limit(1); if(!specimen) throw Object.assign(new Error('Specimen not found.'),{statusCode:404});
+  const results=await tx.select().from(labResults).where(eq(labResults.specimenId,specimen.id)); if(!results.length) throw Object.assign(new Error('No results exist for this specimen.'),{statusCode:422});
+  if(results.some(r=>r.status!=='Validated'||r.value===null)) throw Object.assign(new Error('Every result must have a value and be independently validated before report release.'),{statusCode:422});
+  let reportNumber=`RPT-${specimen.accession}`; let version=1; let supersedesId:string|undefined;
+  if(parsed.data.correctionOf){const [previous]=await tx.select().from(labReports).where(eq(labReports.id,parsed.data.correctionOf)).for('update').limit(1);if(!previous)throw Object.assign(new Error('Original report not found.'),{statusCode:404});if(previous.status!=='Released')throw Object.assign(new Error('Only the current released report can be corrected.'),{statusCode:409});if(previous.specimenId!==specimen.id)throw Object.assign(new Error('Correction must refer to a report for this specimen.'),{statusCode:422});reportNumber=previous.reportNumber;const versions=await tx.select({version:labReports.version}).from(labReports).where(eq(labReports.reportNumber,reportNumber)).orderBy(desc(labReports.version)).limit(1);version=(versions[0]?.version??previous.version)+1;supersedesId=previous.id;await tx.update(labReports).set({status:'Superseded'}).where(eq(labReports.id,previous.id));}
+  else {const [existing]=await tx.select({id:labReports.id}).from(labReports).where(eq(labReports.specimenId,specimen.id)).limit(1);if(existing)throw Object.assign(new Error('A report already exists. Use the correction workflow to issue a revised report.'),{statusCode:409});}
+  const snapshot: Record<string, any>={patient:{patientNumber:'',name:'',dateOfBirth:null,sexAtBirth:null},specimen:{id:specimen.id,accession:specimen.accession,type:specimen.specimenType,department:specimen.department,collectedAt:specimen.collectedAt.toISOString()},results:results.map(r=>({id:r.id,code:r.testCode,name:r.testName,value:String(r.value),unit:r.unit,referenceLow:r.referenceLow===null?null:String(r.referenceLow),referenceHigh:r.referenceHigh===null?null:String(r.referenceHigh),status:r.status,validatedAt:r.validatedAt?.toISOString()??null})),report:{reportNumber,version,issuedAt:new Date().toISOString(),correctionReason:parsed.data.reason??null}};
+  const [patient]=await tx.select().from(patients).where(eq(patients.id,specimen.patientId)).limit(1); snapshot.patient={patientNumber:patient?.patientNumber??'',name:patient?`${patient.givenName} ${patient.familyName}`:'',dateOfBirth:patient?.dateOfBirth?String(patient.dateOfBirth):null,sexAtBirth:patient?.sexAtBirth??null};
+  const [created]=await tx.insert(labReports).values({specimenId:specimen.id,reportNumber,version,status:'Released',snapshot,releasedBy:auth.user.id,correctionReason:parsed.data.reason??null,supersedesId}).returning();
+  await tx.insert(auditEvents).values({actorId:auth.user.id,action:supersedesId?'REPORT_CORRECTED':'REPORT_RELEASED',entityType:'lab_report',entityId:created.id,details:{reportNumber,version,specimenAccession:specimen.accession,reason:parsed.data.reason??null}});return created;
+ }); return NextResponse.json({data:report}, {status:201});
+ } catch(e){const status=typeof e==='object'&&e&&'statusCode'in e?Number(e.statusCode):500;if(status!==500&&e instanceof Error)return NextResponse.json({error:e.message},{status});console.error('Report release failed',e);return NextResponse.json({error:'Unable to release report.'},{status:500});}
+}

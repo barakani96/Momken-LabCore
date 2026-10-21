@@ -1,0 +1,160 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1781913600000,
+      "tag": "0001_base_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781913660000,
+      "tag": "0002_catalog_orders",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781913720000,
+      "tag": "0003_persistent_orders_accessioning",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1781913780000,
+      "tag": "0004_patient_registry_specimen_events",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1781913840000,
+      "tag": "0005_authentication_rbac",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792540000000,
+      "tag": "0006_user_admin_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792540060000,
+      "tag": "0007_audit_security_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792540120000,
+      "tag": "0008_persistent_results_workflow",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792540180000,
+      "tag": "0009_reference_ranges_critical_management",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792540240000,
+      "tag": "0010_clinical_report_release",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792540300000,
+      "tag": "0011_patient_portal_secure_delivery",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792540360000,
+      "tag": "0012_patient_portal_accounts",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792540420000,
+      "tag": "0013_patient_session_security",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792540480000,
+      "tag": "0014_blood_bank_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792540540000,
+      "tag": "0015_blood_bank_operations",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1792540600000,
+      "tag": "0016_account_mfa_recovery",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1792540660000,
+      "tag": "0017_password_recovery_session_management",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1792540720000,
+      "tag": "0018_audit_compliance_chain",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1792540780000,
+      "tag": "0019_quality_management_system",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1792540840000,
+      "tag": "0020_document_control_sop",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1792540900000,
+      "tag": "0021_inventory_reagent_control",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1792540960000,
+      "tag": "0022_procurement_purchase_orders",
+      "breakpoints": true
+    }
+  ]
+}

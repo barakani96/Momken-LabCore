@@ -1,0 +1,8 @@
+{
+  "name": "Carbon Clinical LIMS & ERP Core",
+  "description": "Enterprise Clinical Laboratory Information Management System and ERP Core with IBM Carbon Design System, Arabic-first RTL support, specimen accessioning, and diagnostic verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import { desc, eq, ilike, or } from 'drizzle-orm';
+import { db } from '@/db';
+import { bloodDonations, bloodDonors } from '@/db/schema';
+import { authorizeApi } from '@/lib/auth/api-guard';
+export async function GET(request:Request){const auth=await authorizeApi(false,'bloodbank.read');if('response'in auth)return auth.response;if(!process.env.DATABASE_URL)return NextResponse.json({error:'Database is not configured.'},{status:503});const q=(new URL(request.url).searchParams.get('q')??'').trim().slice(0,80);try{const data=await db.select({id:bloodDonations.id,donationNumber:bloodDonations.donationNumber,donorNumber:bloodDonors.donorNumber,donorName:bloodDonors.givenName,donorFamilyName:bloodDonors.familyName,collectedAt:bloodDonations.collectedAt,collectionSite:bloodDonations.collectionSite,screeningStatus:bloodDonations.screeningStatus,notes:bloodDonations.notes}).from(bloodDonations).innerJoin(bloodDonors,eq(bloodDonations.donorId,bloodDonors.id)).where(q?or(ilike(bloodDonations.donationNumber,`%${q}%`),ilike(bloodDonors.donorNumber,`%${q}%`)):undefined).orderBy(desc(bloodDonations.collectedAt)).limit(250);return NextResponse.json({data});}catch(e){console.error(e);return NextResponse.json({error:'Unable to load donations.'},{status:500});}}

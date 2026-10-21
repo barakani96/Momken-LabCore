@@ -1,0 +1,16 @@
+import { config } from 'dotenv';
+config({ path: ['.env.local', '.env'] });
+import { db } from '../db/index';
+import { appUsers } from '../db/schema';
+import { hashPassword } from '../lib/auth/password';
+import { eq } from 'drizzle-orm';
+const email = process.env.BOOTSTRAP_ADMIN_EMAIL?.trim().toLowerCase();
+const password = process.env.BOOTSTRAP_ADMIN_PASSWORD;
+if (!email || !password) throw new Error('Set BOOTSTRAP_ADMIN_EMAIL and BOOTSTRAP_ADMIN_PASSWORD in .env.local first.');
+if (password.length < 14) throw new Error('Password must be at least 14 characters.');
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('BOOTSTRAP_ADMIN_EMAIL is invalid.');
+const [existing] = await db.select({ id: appUsers.id }).from(appUsers).where(eq(appUsers.email, email)).limit(1);
+if (existing) throw new Error('That email already has an account. Use the admin account management process instead of resetting credentials through this bootstrap command.');
+await db.insert(appUsers).values({ email, displayName: process.env.BOOTSTRAP_ADMIN_NAME?.trim() || 'System Administrator', passwordHash: hashPassword(password), role: 'Admin' });
+console.log('Administrator account created. Password was not printed.');
+process.exit(0);

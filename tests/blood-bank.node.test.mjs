@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+const read = p => readFile(new URL(p, import.meta.url), 'utf8');
+test('blood bank migration creates donor, donation, unit, crossmatch and transfusion traceability tables', async()=>{const s=await read('../db/migrations/0014_blood_bank_core.sql');for(const name of ['blood_donors','blood_donations','blood_units','blood_crossmatches','blood_transfusion_events'])assert.match(s,new RegExp(`CREATE TABLE ${name}`));assert.match(s,/expires_at > collected_at/);assert.match(s,/CHECK \(blood_group IN/);});
+test('blood bank APIs require fine-grained permissions and audit writes',async()=>{const units=await read('../app/api/blood-bank/units/route.ts');const donors=await read('../app/api/blood-bank/donors/route.ts');assert.match(units,/bloodbank\.read/);assert.match(units,/bloodbank\.manage/);assert.match(units,/BLOOD_UNIT_REGISTERED/);assert.match(donors,/BLOOD_DONOR_REGISTERED/);});
+test('blood units are quarantined by default and only released after passed screening and before expiry',async()=>{const sql=await read('../db/migrations/0014_blood_bank_core.sql');const api=await read('../app/api/blood-bank/units/[id]/route.ts');assert.match(sql,/DEFAULT 'Quarantined'/);assert.match(api,/screeningStatus!=='Passed'/);assert.match(api,/unit\.expiresAt<=new Date\(\)/);});
+test('blood bank screen is navigable and localized in Arabic and English',async()=>{const page=await read('../components/blood-bank-workbench.tsx');const shell=await read('../components/app-shell.tsx');assert.match(page,/Blood bank/);assert.match(page,/بنك الدم/);assert.match(shell,/href="\/blood-bank"/);});

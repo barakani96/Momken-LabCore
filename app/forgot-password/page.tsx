@@ -1,0 +1,9 @@
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { Button, InlineNotification, TextInput, Tile } from '@carbon/react';
+export default function ForgotPasswordPage() {
+ const [email,setEmail]=useState(''); const [message,setMessage]=useState(''); const [error,setError]=useState(''); const [busy,setBusy]=useState(false);
+ async function submit(e:React.FormEvent){e.preventDefault();setBusy(true);setError('');setMessage('');try{const r=await fetch('/api/auth/password/forgot',{method:'POST',headers:{'content-type':'application/json',accept:'application/json'},body:JSON.stringify({email})});const text=await r.text();let d;try{d=text?JSON.parse(text):{};}catch{throw new Error(`Invalid server response (HTTP ${r.status}).`)}if(!r.ok)throw new Error(d.error||'Unable to request recovery.');setMessage(d.message||'If an active account matches that email, instructions will be sent.');}catch(e){setError(e instanceof Error?e.message:'Unable to request recovery.')}finally{setBusy(false)}}
+ return <div className="login-wrap"><Tile className="login-tile"><h1>Reset your password</h1><p className="login-description">Enter your work email. If it matches an active account, we will send recovery instructions.</p>{error&&<InlineNotification kind="error" title="Request failed" subtitle={error} lowContrast/>}{message&&<InlineNotification kind="success" title="Check your email" subtitle={message} lowContrast/>}<form onSubmit={submit} className="login-form"><TextInput id="recovery-email" type="email" labelText="Work email" autoComplete="email" value={email} onChange={e=>setEmail(e.currentTarget.value)} required/><Button type="submit" disabled={busy}>{busy?'Submitting…':'Send recovery link'}</Button></form><p><Link href="/login">Back to sign in</Link></p></Tile></div>;
+}
