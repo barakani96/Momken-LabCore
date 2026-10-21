@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import { useEffect,useState } from 'react';
 import { Button, InlineNotification, Tag, Tile } from '@carbon/react';

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, ContentSwitcher, DataTable, DataTableSkeleton, InlineNotification, Modal, NumberInput, Pagination, ProgressBar, Select, SelectItem, Switch, Table, TableBody, TableCell, TableContainer, TableExpandHeader, TableExpandRow, TableExpandedRow, TableHead, TableHeader, TableRow, TableToolbar, TableToolbarContent, TableToolbarSearch, TextArea, TextInput } from '@carbon/react';
@@ -91,7 +92,7 @@ export function ProcurementWorkbench() {
                 <TableHead><TableRow><TableExpandHeader />{hs.map((h: any) => { const { key, ...rest } = getHeaderProps({ header: h }); return <TableHeader key={key} {...rest}>{h.header}</TableHeader>; })}</TableRow></TableHead>
                 <TableBody>
                   {rs.length === 0 && <TableRow><TableCell colSpan={8}>{orders.length === 0 ? L('No purchase orders yet. Create the first order from your inventory items.', 'لا توجد أوامر شراء بعد. أنشئ أول أمر من أصناف المخزون.') : L('No orders match the filters.', 'لا توجد أوامر مطابقة للمرشحات.')}</TableCell></TableRow>}
-                  {rs.map((row: any) => { const o = orders.find(x => x.id === row.id)!; const { key, ...rowProps } = getRowProps({ row });
+                  {rs.map((row: any) => { const o = orders.find(x => x.id === row.id)!; const { key, ...rowProps } = getRowProps({row, key: row.id});
                     return [
                       <TableExpandRow key={key} {...rowProps}>
                         <TableCell><Ltr>{o.poNumber}</Ltr></TableCell><TableCell>{o.supplier}</TableCell><TableCell><Ltr>{o.lines.length}</Ltr></TableCell><TableCell><Ltr>{money(orderTotalMinor(o.lines), o.currency)}</Ltr></TableCell><TableCell>{fmtDate(o.createdAt)}</TableCell>

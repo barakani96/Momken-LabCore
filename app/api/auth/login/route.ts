@@ -10,7 +10,8 @@ import { SESSION_COOKIE } from '@/lib/auth/session';
 import { isSameOriginRequest } from '@/lib/auth/api-guard';
 const inputSchema = z.object({ email: z.string().email().max(254), password: z.string().min(1).max(256), totpCode: z.string().optional(), recoveryCode: z.string().optional() });
 export async function POST(request: Request) {
-  if (!isSameOriginRequest(request)) return NextResponse.json({ error: 'Cross-origin request rejected.' }, { status: 403 });
+  const originCheck = isSameOriginRequest(request);
+  if (!originCheck.valid) return NextResponse.json({ error: `Cross-origin request rejected: ${originCheck.reason}` }, { status: 403 });
   if (!process.env.DATABASE_URL) return NextResponse.json({ error: 'Database is not configured.' }, { status: 503 });
   const parsed = inputSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'Enter a valid email and password.' }, { status: 400 });

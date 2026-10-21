@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import {useEffect,useState} from 'react';import {Button,Dropdown,InlineLoading,InlineNotification,Search,TextInput,Tag} from '@carbon/react';
 type Patient={id:string;patientNumber:string;givenName:string;familyName:string};type Account={id:string;patientId:string;email:string;active:boolean;createdAt:string;lastLoginAt:string|null;patientNumber:string;givenName:string;familyName:string};

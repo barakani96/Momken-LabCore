@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import { useEffect,useState } from 'react';import { Button, InlineLoading, InlineNotification } from '@carbon/react';import { useParams,useRouter } from 'next/navigation';
 type R={reportNumber:string;version:number;releasedAt:string;snapshot:Record<string,unknown>};

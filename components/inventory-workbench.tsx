@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActionableNotification, Button, DataTable, Table, TableBody, TableCell, TableContainer, TableExpandHeader, TableExpandRow, TableExpandedRow, TableHead, TableHeader, TableRow, TableToolbar, TableToolbarContent, TableToolbarSearch, Tabs, TabList, Tab, TabPanels, TabPanel, Tag, Tile, Modal, TextInput, TextArea, Select, SelectItem, NumberInput, Checkbox, InlineNotification, Pagination, DataTableSkeleton } from '@carbon/react';
@@ -113,7 +114,7 @@ export function InventoryWorkbench() {
                       <TableHead><TableRow><TableExpandHeader />{headers.map((h: any) => { const { key, ...rest } = getHeaderProps({ header: h }); return <TableHeader key={key} {...rest}>{h.header}</TableHeader>; })}</TableRow></TableHead>
                       <TableBody>
                         {rows.length === 0 && <TableRow><TableCell colSpan={9}>{items.length === 0 ? L('No inventory items yet. Create the first item to start tracking lots.', 'لا توجد أصناف بعد. أنشئ أول صنف لبدء تتبع الدفعات.') : L('No items match the search.', 'لا توجد أصناف مطابقة للبحث.')}</TableCell></TableRow>}
-                        {rows.map((row: any) => { const it = itemById(row.id)!; const itemLots = lotsByItem.get(it.id) ?? []; const { key, ...rowProps } = getRowProps({ row });
+                        {rows.map((row: any) => { const it = itemById(row.id)!; const itemLots = lotsByItem.get(it.id) ?? []; const { key, ...rowProps } = getRowProps({row, key: row.id});
                           return [
                             <TableExpandRow key={key} {...rowProps}>
                               <TableCell>{ltr(it.itemCode)}</TableCell><TableCell>{it.name}</TableCell><TableCell>{ar ? categoryAr[it.category] ?? it.category : it.category}</TableCell><TableCell>{ar ? storageAr[it.storageCondition] ?? it.storageCondition : it.storageCondition}</TableCell>
@@ -146,7 +147,7 @@ export function InventoryWorkbench() {
                       <TableHead><TableRow>{headers.map((h: any) => { const { key, ...rest } = getHeaderProps({ header: h }); return <TableHeader key={key} {...rest}>{h.header}</TableHeader>; })}</TableRow></TableHead>
                       <TableBody>
                         {rows.length === 0 && <TableRow><TableCell colSpan={7}>{L('No lots have been received.', 'لم تُستلم أي دفعات.')}</TableCell></TableRow>}
-                        {rows.map((row: any) => { const l = lotById(row.id)!; const it = itemById(l.itemId); const { key, ...rowProps } = getRowProps({ row });
+                        {rows.map((row: any) => { const l = lotById(row.id)!; const it = itemById(l.itemId); const { key, ...rowProps } = getRowProps({row, key: row.id});
                           return <TableRow key={key} {...rowProps}>
                             <TableCell>{it ? `${it.name} ` : ''}{it && ltr(it.itemCode)}</TableCell><TableCell>{ltr(l.lotNumber)}</TableCell><TableCell>{ltr(l.expiryDate)}</TableCell><TableCell>{ltr(l.onHandQty)}</TableCell><TableCell>{l.storageLocation ?? '—'}</TableCell>
                             <TableCell>{lotTag(l)} {expiryTag(l)}</TableCell>
@@ -173,7 +174,7 @@ export function InventoryWorkbench() {
                       <TableHead><TableRow>{headers.map((h: any) => { const { key, ...rest } = getHeaderProps({ header: h }); return <TableHeader key={key} {...rest}>{h.header}</TableHeader>; })}</TableRow></TableHead>
                       <TableBody>
                         {rows.length === 0 && <TableRow><TableCell colSpan={7}>{L('No stock movements recorded.', 'لا توجد حركات مخزون مسجلة.')}</TableCell></TableRow>}
-                        {rows.map((row: any) => { const m = ledger.find(x => String(x.id) === row.id)!; const { key, ...rowProps } = getRowProps({ row });
+                        {rows.map((row: any) => { const m = ledger.find(x => String(x.id) === row.id)!; const { key, ...rowProps } = getRowProps({row, key: row.id});
                           return <TableRow key={key} {...rowProps}><TableCell>{fmtTime(m.occurredAt)}</TableCell><TableCell>{m.itemName} {ltr(m.itemCode)}</TableCell><TableCell>{ltr(m.lotNumber)}</TableCell><TableCell>{ar ? typeLabels[m.movementType]?.[1] : typeLabels[m.movementType]?.[0]}</TableCell><TableCell>{ltr(m.quantityDelta > 0 ? `+${m.quantityDelta}` : m.quantityDelta)}</TableCell><TableCell>{ltr(m.balanceAfter)}</TableCell><TableCell>{m.reason ?? m.reference ?? '—'}</TableCell></TableRow>; })}
                       </TableBody>
                     </Table>

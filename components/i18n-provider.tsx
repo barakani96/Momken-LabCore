@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 'use client';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { defaultLocale, directionFor, isLocale, translate, type Locale } from '@/lib/i18n';

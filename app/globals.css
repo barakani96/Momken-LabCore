@@ -150,7 +150,7 @@ html[dir='rtl'] .cds--text-input, html[dir='rtl'] .cds--search-input, html[dir='
 @media(max-width:700px){.critical-communication-form{grid-template-columns:1fr;min-width:220px;}}
 
 /* Increment 1.12: clinical report release and print layout */
-.report-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.report-list-header{display:flex;align-items:center;justify-content:space-between;gap:1rem}.report-search{display:flex;align-items:end;gap:.5rem;min-width:min(100%,24rem)}.report-page{max-width:1100px;margin:0 auto;padding:1.5rem 0}.report-toolbar{display:flex;justify-content:space-between;margin-bottom:1rem}.clinical-report{background:var(--cds-layer-01);color:var(--cds-text-primary);border:1px solid var(--cds-border-subtle-01);padding:2rem;box-shadow:0 2px 12px #00000012}.clinical-report-header{display:flex;justify-content:space-between;gap:2rem;padding-bottom:1.5rem;border-bottom:2px solid var(--cds-border-strong)}.clinical-report-header h1{font-size:1.75rem;margin:.35rem 0}.clinical-report-header p{margin:.25rem 0;color:var(--cds-text-secondary)}.report-number{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem}.report-meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;padding:1.5rem 0}.report-meta-grid>div,.clinical-report-footer>div{display:flex;flex-direction:column;gap:.25rem}.report-meta-grid span,.clinical-report-footer span{font-size:.75rem;color:var(--cds-text-secondary)}.clinical-report h2{font-size:1.25rem;margin:1rem 0}.clinical-results-table{width:100%;border-collapse:collapse}.clinical-results-table th,.clinical-results-table td{text-align:start;padding:.75rem;border-bottom:1px solid var(--cds-border-subtle-01);vertical-align:top}.clinical-results-table th{background:var(--cds-layer-02);font-weight:600}.clinical-results-table td small{display:block;color:var(--cds-text-secondary);margin-top:.2rem}.clinical-report-footer{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:start;border-top:1px solid var(--cds-border-subtle-01);margin-top:2rem;padding-top:1rem}.clinical-report-footer p{width:100%;font-size:.8rem;color:var(--cds-text-secondary)}.correction-note{margin-top:1.5rem;padding:1rem;border-inline-start:4px solid var(--cds-support-warning);background:var(--cds-layer-02)}@media(max-width:800px){.report-form-grid,.report-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.report-list-header{align-items:stretch;flex-direction:column}.report-search{min-width:0}}@media print{body{background:#fff!important}.no-print,header.cds--header,aside.cds--side-nav,.cds--side-nav__overlay{display:none!important}.cds--content{margin:0!important;padding:0!important}.content-frame{max-width:none!important;padding:0!important}.report-page{max-width:none;margin:0;padding:0}.clinical-report{box-shadow:none;border:0;padding:0;background:#fff;color:#161616}.clinical-report-header,.clinical-report-footer,.report-meta-grid{break-inside:avoid}.clinical-results-table th{background:#eee!important;color:#161616!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.clinical-results-table th,.clinical-results-table td{border-color:#aaa}.report-number .cds--tag{border:1px solid #666}}
+.report-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.report-list-header{display:flex;align-items:center;justify-content:space-between;gap:1rem}.report-search{display:flex;align-items:flex-end;gap:.5rem;min-width:min(100%,24rem)}.report-page{max-width:1100px;margin:0 auto;padding:1.5rem 0}.report-toolbar{display:flex;justify-content:space-between;margin-bottom:1rem}.clinical-report{background:var(--cds-layer-01);color:var(--cds-text-primary);border:1px solid var(--cds-border-subtle-01);padding:2rem;box-shadow:0 2px 12px #00000012}.clinical-report-header{display:flex;justify-content:space-between;gap:2rem;padding-bottom:1.5rem;border-bottom:2px solid var(--cds-border-strong)}.clinical-report-header h1{font-size:1.75rem;margin:.35rem 0}.clinical-report-header p{margin:.25rem 0;color:var(--cds-text-secondary)}.report-number{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem}.report-meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;padding:1.5rem 0}.report-meta-grid>div,.clinical-report-footer>div{display:flex;flex-direction:column;gap:.25rem}.report-meta-grid span,.clinical-report-footer span{font-size:.75rem;color:var(--cds-text-secondary)}.clinical-report h2{font-size:1.25rem;margin:1rem 0}.clinical-results-table{width:100%;border-collapse:collapse}.clinical-results-table th,.clinical-results-table td{text-align:start;padding:.75rem;border-bottom:1px solid var(--cds-border-subtle-01);vertical-align:top}.clinical-results-table th{background:var(--cds-layer-02);font-weight:600}.clinical-results-table td small{display:block;color:var(--cds-text-secondary);margin-top:.2rem}.clinical-report-footer{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;border-top:1px solid var(--cds-border-subtle-01);margin-top:2rem;padding-top:1rem}.clinical-report-footer p{width:100%;font-size:.8rem;color:var(--cds-text-secondary)}.correction-note{margin-top:1.5rem;padding:1rem;border-inline-start:4px solid var(--cds-support-warning);background:var(--cds-layer-02)}@media(max-width:800px){.report-form-grid,.report-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.report-list-header{align-items:stretch;flex-direction:column}.report-search{min-width:0}}@media print{body{background:#fff!important}.no-print,header.cds--header,aside.cds--side-nav,.cds--side-nav__overlay{display:none!important}.cds--content{margin:0!important;padding:0!important}.content-frame{max-width:none!important;padding:0!important}.report-page{max-width:none;margin:0;padding:0}.clinical-report{box-shadow:none;border:0;padding:0;background:#fff;color:#161616}.clinical-report-header,.clinical-report-footer,.report-meta-grid{break-inside:avoid}.clinical-results-table th{background:#eee!important;color:#161616!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.clinical-results-table th,.clinical-results-table td{border-color:#aaa}.report-number .cds--tag{border:1px solid #666}}
 
 .portal-admin,.portal-report-page{max-width:1200px;margin:0 auto;padding:1.5rem;color:var(--cds-text-primary)}
 .portal-admin .page-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}
@@ -196,21 +196,6 @@ html[dir='rtl'] .cds--text-input, html[dir='rtl'] .cds--search-input, html[dir='
 .patient-security-footer { margin-top: 2rem; }
 @media (max-width: 640px) { .patient-session-card { align-items: flex-start; flex-direction: column; } .patient-dashboard-actions { align-items: stretch; } }
 
-
-/* Patient portal account security */
-.patient-dashboard-actions { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.patient-security-tile { margin-top: 1.5rem; max-width: 42rem; }
-.patient-security-tile h2, .patient-security-sessions h2 { margin: 0 0 0.5rem; }
-.patient-security-tile > p, .patient-security-sessions > p { color: var(--cds-text-secondary); margin: 0 0 1.25rem; }
-.patient-security-form { display: grid; gap: 1rem; max-width: 32rem; margin-top: 1.25rem; }
-.patient-security-form button { justify-self: start; }
-.patient-security-sessions { margin-top: 2rem; max-width: 52rem; }
-.patient-session-card { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.25rem; border-bottom: 1px solid var(--cds-border-subtle); background: var(--cds-layer); }
-.patient-session-card p { color: var(--cds-text-secondary); margin: 0.35rem 0 0; overflow-wrap: anywhere; }
-.patient-security-footer { margin-top: 2rem; }
-@media (max-width: 640px) { .patient-session-card { align-items: flex-start; flex-direction: column; } .patient-dashboard-actions { align-items: stretch; } }
-
-
 /* Blood bank workbench */
 .blood-bank-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
 .blood-bank-stats .cds--tile { display:flex; flex-direction:column; gap:.75rem; min-height:112px; }
@@ -241,11 +226,382 @@ html[dir='rtl'] .cds--text-input, html[dir='rtl'] .cds--search-input, html[dir='
 .audit-integrity { border-inline-start: 4px solid var(--cds-border-strong); }
 .integrity-result { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; padding-block: .5rem; }
 .integrity-result small { color: var(--cds-text-secondary); margin-inline-start: auto; }
-.audit-filter { display: flex; align-items: end; flex-wrap: wrap; gap: 1rem; padding-block: 1rem; }
+.audit-filter { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 1rem; padding-block: 1rem; }
 .audit-filter label { display: flex; flex-direction: column; gap: .375rem; color: var(--cds-text-secondary); font-size: .875rem; }
 .audit-filter input[type="date"] { min-height: 2.5rem; min-width: 10rem; padding: .5rem; border: 0; border-bottom: 1px solid var(--cds-border-strong); background: var(--cds-field); color: var(--cds-text-primary); font: inherit; }
 .audit-filter input[type="date"]:focus-visible { outline: 2px solid var(--cds-focus); outline-offset: 2px; }
 
 /* Increment 1.22 — Quality Management System */
-.qms-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0 1.5rem}.qms-full{grid-column:1/-1}.qms-date{display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}.qms-date input{min-height:2.5rem;padding:.5rem;background:var(--cds-field);color:var(--cds-text-primary);border:0;border-bottom:1px solid var(--cds-border-strong)}.qms-create,.qms-detail{margin-bottom:1.5rem}.qms-create .page-actions,.qms-detail .page-actions{margin-top:1rem;justify-content:flex-end}.qms-filters{display:grid;grid-template-columns:minmax(250px,2fr) minmax(180px,1fr) minmax(180px,1fr);gap:1rem;align-items:end;margin-bottom:1.5rem}.qms-search{display:flex;gap:.5rem;align-items:end}.qms-search>div{flex:1;min-width:0}.qms-link{padding:0;border:0;background:transparent;color:var(--cds-link-primary);text-decoration:underline;cursor:pointer;font:inherit}.qms-selected-row{outline:1px solid var(--cds-border-interactive);outline-offset:-1px}.qms-empty{padding:1.5rem;color:var(--cds-text-secondary)}.qms-meta{display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0 1.5rem;padding:1rem;background:var(--cds-layer-01);font-size:.875rem}.qms-history{border-top:1px solid var(--cds-border-subtle);margin-top:2rem;padding-top:1.5rem}.qms-history h3{margin-bottom:1rem;font-weight:500}.qms-history-item{border-inline-start:2px solid var(--cds-border-interactive);padding:.25rem 1rem 1rem;margin-bottom:.5rem;display:flex;flex-direction:column;gap:.4rem}.qms-history-item span{font-size:.8rem;color:var(--cds-text-secondary)}.qms-history-item pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--cds-layer-02);padding:1rem;font-size:.8rem}.qms-note{border-inline-start:3px solid var(--cds-support-info);margin-top:1rem}.qms-note p{margin-top:.5rem;line-height:1.6;color:var(--cds-text-secondary)}
+.qms-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0 1.5rem}.qms-full{grid-column:1/-1}.qms-date{display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}.qms-date input{min-height:2.5rem;padding:.5rem;background:var(--cds-field);color:var(--cds-text-primary);border:0;border-bottom:1px solid var(--cds-border-strong)}.qms-create,.qms-detail{margin-bottom:1.5rem}.qms-create .page-actions,.qms-detail .page-actions{margin-top:1rem;justify-content:flex-end}.qms-filters{display:grid;grid-template-columns:minmax(250px,2fr) minmax(180px,1fr) minmax(180px,1fr);gap:1rem;align-items:flex-end;margin-bottom:1.5rem}.qms-search{display:flex;gap:.5rem;align-items:flex-end}.qms-search>div{flex:1;min-width:0}.qms-link{padding:0;border:0;background:transparent;color:var(--cds-link-primary);text-decoration:underline;cursor:pointer;font:inherit}.qms-selected-row{outline:1px solid var(--cds-border-interactive);outline-offset:-1px}.qms-empty{padding:1.5rem;color:var(--cds-text-secondary)}.qms-meta{display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0 1.5rem;padding:1rem;background:var(--cds-layer-01);font-size:.875rem}.qms-history{border-top:1px solid var(--cds-border-subtle);margin-top:2rem;padding-top:1.5rem}.qms-history h3{margin-bottom:1rem;font-weight:500}.qms-history-item{border-inline-start:2px solid var(--cds-border-interactive);padding:.25rem 1rem 1rem;margin-bottom:.5rem;display:flex;flex-direction:column;gap:.4rem}.qms-history-item span{font-size:.8rem;color:var(--cds-text-secondary)}.qms-history-item pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--cds-layer-02);padding:1rem;font-size:.8rem}.qms-note{border-inline-start:3px solid var(--cds-support-info);margin-top:1rem}.qms-note p{margin-top:.5rem;line-height:1.6;color:var(--cds-text-secondary)}
 @media(max-width:800px){.qms-form-grid,.qms-filters{grid-template-columns:1fr}.qms-full{grid-column:auto}.qms-search{align-items:stretch;flex-direction:column}.qms-meta{flex-direction:column;gap:.5rem}}
+
+/* ==========================================================================
+   Responsive Viewport (<600px): Filter Toolbar & Data Tables Vertical Stack
+   Ensures all primary actions remain visible, touch-friendly, and accessible.
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Page structure */
+  .content-frame {
+    padding: 0.75rem !important;
+  }
+
+  .page-heading {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .heading-actions,
+  .page-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+  }
+
+  .heading-actions .cds--btn,
+  .page-actions .cds--btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+  }
+
+  /* Metric grids and KPI tiles */
+  .metric-grid,
+  .kpi-grid,
+  .blood-bank-stats {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Filter-toolbars gracefully collapse into a vertical stack */
+  .filter-toolbar,
+  .blood-bank-toolbar,
+  .qms-filters,
+  .qms-search,
+  .report-list-header,
+  .report-search,
+  .table-actions,
+  .audit-filter,
+  .critical-communication-form,
+  .portal-grant-form,
+  .patient-invite-form {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .filter-toolbar {
+    padding: 0 0 1rem !important;
+  }
+
+  /* RTL override ensuring column direction under 600px */
+  html[dir='rtl'] .filter-toolbar,
+  html[dir='rtl'] .blood-bank-toolbar,
+  html[dir='rtl'] .qms-filters,
+  html[dir='rtl'] .qms-search,
+  html[dir='rtl'] .report-list-header,
+  html[dir='rtl'] .report-search,
+  html[dir='rtl'] .table-actions,
+  html[dir='rtl'] .audit-filter,
+  html[dir='rtl'] .critical-communication-form,
+  html[dir='rtl'] .portal-grant-form,
+  html[dir='rtl'] .patient-invite-form,
+  html[dir='rtl'] .heading-actions,
+  html[dir='rtl'] .page-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  /* Toolbar input controls expand to full width */
+  .filter-toolbar .search-field,
+  .filter-toolbar .filter-select,
+  .filter-toolbar .cds--search,
+  .filter-toolbar .cds--dropdown__wrapper,
+  .filter-toolbar .cds--dropdown,
+  .filter-toolbar .cds--select,
+  .filter-toolbar .cds--text-input-wrapper,
+  .blood-bank-toolbar .cds--search,
+  .blood-bank-toolbar .cds--text-input-wrapper,
+  .blood-bank-toolbar .cds--select,
+  .qms-filters .cds--text-input-wrapper,
+  .qms-filters .cds--select,
+  .qms-search .cds--text-input-wrapper,
+  .qms-search > div,
+  .user-search,
+  .table-actions .cds--select,
+  .audit-filter .cds--select,
+  .audit-filter label,
+  .audit-filter input[type="date"],
+  .portal-grant-form .cds--dropdown__wrapper,
+  .portal-grant-form .cds--number,
+  .patient-invite-form .cds--dropdown__wrapper,
+  .patient-invite-form .cds--text-input-wrapper {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  /* Toolbar primary action and filter buttons */
+  .filter-toolbar .cds--btn,
+  .filter-toolbar button,
+  .blood-bank-toolbar .cds--btn,
+  .blood-bank-toolbar button,
+  .qms-filters .cds--btn,
+  .qms-search .cds--btn,
+  .report-search .cds--btn,
+  .audit-filter .cds--btn,
+  .critical-communication-form .cds--btn,
+  .portal-grant-form .cds--btn,
+  .patient-invite-form .cds--btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+
+  /* Carbon TableToolbar (Inventory, Procurement) */
+  .cds--table-toolbar {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .cds--toolbar-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: auto !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .cds--toolbar-content .cds--toolbar-search-container-persistent,
+  .cds--toolbar-content .cds--toolbar-search-container-active,
+  .cds--toolbar-content .cds--search,
+  .cds--toolbar-search-container-persistent .cds--search-magnifier {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+
+  .cds--toolbar-content .cds--btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+  }
+
+  /* Data Tables: Graceful vertical card stack */
+  .table-wrap,
+  .cds--table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: visible !important;
+  }
+
+  .table-wrap .cds--data-table,
+  .cds--table-container .cds--data-table,
+  .cds--data-table,
+  table.cds--data-table {
+    min-width: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+  }
+
+  /* Hide table header on mobile */
+  .table-wrap thead,
+  .cds--table-container thead,
+  .cds--data-table thead,
+  table.cds--data-table thead {
+    display: none !important;
+  }
+
+  /* Rows become discrete, cleanly spaced cards */
+  .table-wrap tbody,
+  .cds--table-container tbody,
+  .cds--data-table tbody,
+  table.cds--data-table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .table-wrap tbody tr,
+  .cds--table-container tbody tr,
+  .cds--data-table tbody tr,
+  table.cds--data-table tbody tr {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 0.875rem !important;
+    border: 1px solid var(--cds-border-subtle) !important;
+    border-radius: 4px !important;
+    padding: 0.875rem 1rem !important;
+    background: var(--cds-layer-01) !important;
+    box-sizing: border-box !important;
+  }
+
+  .table-wrap tbody tr:hover,
+  .cds--table-container tbody tr:hover,
+  .cds--data-table tbody tr:hover,
+  table.cds--data-table tbody tr:hover {
+    background: var(--cds-layer-hover, var(--cds-layer-01)) !important;
+  }
+
+  .stat-row,
+  .table-wrap tbody tr.stat-row,
+  .cds--data-table tbody tr.stat-row {
+    border-inline-start: 4px solid var(--cds-support-error) !important;
+  }
+
+  /* Cells display as flex item rows within each card */
+  .table-wrap tbody td,
+  .cds--table-container tbody td,
+  .cds--data-table tbody td,
+  table.cds--data-table tbody td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.45rem 0 !important;
+    min-height: 2.25rem !important;
+    border: none !important;
+    border-bottom: 1px solid var(--cds-border-subtle-01) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    text-align: start !important;
+  }
+
+  /* Cell with colSpan (e.g. empty states, expanding rows) */
+  .table-wrap tbody td[colspan],
+  .cds--table-container tbody td[colspan],
+  .cds--data-table tbody td[colspan],
+  table.cds--data-table tbody td[colspan] {
+    display: block !important;
+    border-bottom: none !important;
+  }
+
+  /* Action cells & row actions */
+  .table-wrap tbody td:last-child,
+  .cds--table-container tbody td:last-child,
+  .cds--data-table tbody td:last-child,
+  table.cds--data-table tbody td:last-child {
+    border-bottom: none !important;
+    padding-top: 0.75rem !important;
+    margin-top: 0.25rem !important;
+    border-top: 1px solid var(--cds-border-subtle) !important;
+  }
+
+  .row-actions,
+  .table-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Primary action buttons: touch-friendly >= 44px */
+  .row-actions .cds--btn,
+  .table-actions .cds--btn,
+  .table-wrap tbody td:last-child .cds--btn,
+  .cds--table-container tbody td:last-child .cds--btn,
+  .cds--data-table tbody td:last-child .cds--btn,
+  table.cds--data-table tbody td:last-child .cds--btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem 1rem !important;
+    flex: 1 1 auto !important;
+  }
+
+  .row-actions .cds--btn--icon-only,
+  .table-actions .cds--btn--icon-only,
+  .table-wrap tbody td:last-child .cds--btn--icon-only {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    flex: 0 0 44px !important;
+  }
+
+  /* Results entry inside mobile card */
+  .result-entry {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+  }
+
+  .result-entry .cds--number {
+    flex: 1 !important;
+    width: 100% !important;
+  }
+
+  .result-entry .cds--number input {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+  }
+
+  /* Expandable rows (Inventory, Procurement) */
+  .cds--table-expand {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .cds--table-expand__button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .cds--expandable-row {
+    padding: 0.75rem !important;
+    margin-top: -0.5rem !important;
+    margin-bottom: 0.875rem !important;
+    background: var(--cds-layer-02) !important;
+    border-radius: 0 0 4px 4px !important;
+  }
+
+  .cds--expandable-row td {
+    border-top: none !important;
+    padding: 0 !important;
+  }
+
+  /* Empty state spacing */
+  .empty-state {
+    padding: 2rem 1rem !important;
+    width: 100% !important;
+  }
+
+  /* Responsive Pagination */
+  .cds--pagination {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .cds--pagination__left,
+  .cds--pagination__right {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .cds--pagination__control-buttons {
+    margin-inline-start: auto !important;
+  }
+}
+

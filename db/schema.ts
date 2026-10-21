@@ -350,3 +350,9 @@ export const purchaseOrderReceipts = pgTable('purchase_order_receipts', {
   lotId: uuid('lot_id').notNull().references(() => inventoryLots.id, { onDelete: 'restrict' }), movementId: bigint('movement_id', { mode: 'number' }).notNull().references(() => inventoryMovements.id, { onDelete: 'restrict' }),
   quantity: integer('quantity').notNull(), receivedBy: uuid('received_by').notNull().references(() => appUsers.id), receivedAt: timestamp('received_at', { withTimezone: true }).defaultNow().notNull()
 }, table => [index('purchase_order_receipts_line_idx').on(table.lineId, table.id)]);
+// Application configuration (Increment 1.26).
+export const appSettings = pgTable('app_settings', {
+  key: varchar('key', { length: 50 }).primaryKey(),
+  value: text('value').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
